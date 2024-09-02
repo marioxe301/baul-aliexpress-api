@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+// User model
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  password     String
+  permissions  String[] @default([])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deleted      Boolean  @default(false)
+  disabled     Boolean  @default(false)
+}
+
+// Product model
+model Product {
+  id            String      @id @default(cuid())
+  name          String
+  description   String?
+  category      String // Category of the product (e.g. Electronics, Clothing, etc)
+  price         Float? // Optional only is there is no variations
+  stock         Int? // Optional only is there is no variations
+  hasVariations Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  available     Boolean     @default(true)
+  tags          String[]
+  variations    Variation[] // Optional only if hasVariations is true\
+  images        Image[]
+  order_items   OrderItem[]
+}
+
+// Variation model
+model Variation {
+  id        String              @id @default(cuid())
+  productId String
+  product   Product             @relation(fields: [productId], references: [id])
+  atributte String // Color, Talla, Material, Peso, Dimensiones
+  value     String // Value of the atributte
+  images    Image[]
+  inventory VariationInventory?
+  OrderItem OrderItem[]
+
+  @@unique([productId, atributte, value]) // Unique combination of productId, atributte and value
+}
+
+// Variation Inventory model
+model VariationInventory {
+  id          String    @id @default(cuid())
+  variationId String    @unique
+  variation   Variation @relation(fields: [variationId], references: [id])
+  stock       Int
+  price       Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Image model
+model Image {
+  id          String     @id @default(cuid())
+  productId   String? // Optional only if the image is for a product
+  product     Product?   @relation(fields: [productId], references: [id])
+  variationId String? // Optional only if the image is for a variant
+  variation   Variation? @relation(fields: [variationId], references: [id])
+  url         String
+  description String?
+  order       Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([productId, variationId, order]) // To ensure that the order is unique for a product or variation
+}
+
+// Order model
+model Order {
+  id            String      @id @default(cuid())
+  orderNumber   String      @unique
+  customerName  String
+  customerEmail String?
+  customerPhone String?
+  status        OrderStatus
+  totalAmount   Float
+  amountPaid    Float
+  deleted       Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  items OrderItem[]
+}
+
+// Order Item model
+model OrderItem {
+  id          String     @id @default(cuid())
+  orderId     String
+  order       Order      @relation(fields: [orderId], references: [id])
+  productId   String
+  product     Product    @relation(fields: [productId], references: [id])
+  variationId String?
+  variation   Variation? @relation(fields: [variationId], references: [id])
+  quantity    Int
+  price       Float
+  total       Float
+  deleted     Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([orderId, productId, variationId]) // To ensure that the combination of orderId, productId and variationId is unique
+}
+
+// Order Status enum
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
+  CANCELLED
+}

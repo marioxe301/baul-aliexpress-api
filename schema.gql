@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""User model"""
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  permissions: [String!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deleted: Boolean!
+  disabled: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  getAllUsers(id: ID, deleted: Boolean = false, disabled: Boolean = false): [User!]!
+  getUser(id: ID, deleted: Boolean = false, disabled: Boolean = false): User!
+}
+
+type Mutation {
+  createUser(data: NewUserInput!): User!
+  updateUser(data: UpdateUserInput!): User!
+  deleteUser(data: DeleteUserInput!): User!
+}
+
+input NewUserInput {
+  email: String!
+  name: String!
+  password: String!
+  permissions: [String!]!
+}
+
+input UpdateUserInput {
+  email: String
+  name: String
+  password: String
+  permissions: [String!]
+}
+
+"""Delete user input"""
+input DeleteUserInput {
+  email: String!
+}
