@@ -10,7 +10,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 export class AdminAPIKeyGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const ctx = GqlExecutionContext.create(context);
-    const request = ctx.getContext().req;
+    const request: Request = ctx.getContext().req;
 
     const apiKey = request.headers['x-admin-api-key'];
     if (!apiKey || apiKey !== process.env.ADMIN_API_SECRET) {

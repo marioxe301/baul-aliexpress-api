@@ -1,5 +1,5 @@
 import { ArgsType, Field, ID } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString } from 'class-validator';
 
 @ArgsType()
 export class UserArgs {
@@ -8,13 +8,26 @@ export class UserArgs {
   @IsOptional()
   id?: string;
 
-  @Field(() => Boolean, { nullable: true })
-  @IsBoolean()
+  @Field({ nullable: true })
+  @IsEmail()
   @IsOptional()
-  deleted = false;
+  email?: string;
 
   @Field(() => Boolean, { nullable: true })
   @IsBoolean()
   @IsOptional()
-  disabled = false;
+  deleted? = false;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  disabled? = false;
+
+  @Field(() => Boolean, {
+    nullable: true,
+    description: 'Return minified request',
+  })
+  @IsBoolean()
+  @IsOptional()
+  minified? = false;
 }
