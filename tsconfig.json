@@ -17,6 +17,11 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "maxNodeModuleJsDepth": 2
+    "maxNodeModuleJsDepth": 2,
+    "paths": {
+      "@prisma-orm/*": ["src/_prisma/*"],
+      "@shared/*": ["src/shared/*"],
+      "@/*": ["src/*"]
+    }
   }
 }

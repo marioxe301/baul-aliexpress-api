@@ -5,8 +5,8 @@ import { UserArgs } from './models/dto/user.args';
 import { NewUserInput } from './models/dto/new-user.input';
 import { UpdateUserInput } from './models/dto/update-user.input';
 import { DeleteUserInput } from './models/dto/delete-user.input';
-import { Permissions } from '../shared/decorators/metadata.decorator';
-import { PERMISSIONS } from 'src/shared/constants/permissions';
+import { Permissions } from '@shared/decorators/metadata.decorator';
+import { PERMISSIONS } from '@shared/constants/permissions';
 
 @Resolver(() => User)
 export class UserResolver {
