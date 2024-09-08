@@ -20,7 +20,7 @@
     "maxNodeModuleJsDepth": 2,
     "paths": {
       "@prisma-orm/*": ["src/_prisma/*"],
-      "@shared/*": ["src/shared/*"],
+      "@shared/*": ["shared/*"],
       "@/*": ["src/*"]
     }
   }
