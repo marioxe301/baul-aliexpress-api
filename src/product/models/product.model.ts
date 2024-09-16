@@ -1,3 +1,6 @@
+import { Image } from '@/images/models/images.model';
+import { OrderItems } from '@/order-items/models/order-items.model';
+import { Variation } from '@/variation/models/variation.model';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ description: 'Product model' })
@@ -34,4 +37,15 @@ export class Product {
 
   @Field(() => [String])
   tags: string[];
+
+  //Relations Fields
+
+  @Field(() => [Variation])
+  variations: Variation[];
+
+  @Field(() => [Image])
+  images: Image[];
+
+  @Field(() => [OrderItems])
+  order_items: OrderItems[];
 }

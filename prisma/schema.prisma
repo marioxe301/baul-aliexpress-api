@@ -16,15 +16,15 @@ datasource db {
 
 // User model
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  password     String
-  permissions  String[] @default([])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  deleted      Boolean  @default(false)
-  disabled     Boolean  @default(false)
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  password    String
+  permissions String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deleted     Boolean  @default(false)
+  disabled    Boolean  @default(false)
 }
 
 // Product model
@@ -47,14 +47,14 @@ model Product {
 
 // Variation model
 model Variation {
-  id        String              @id @default(cuid())
-  productId String
-  product   Product             @relation(fields: [productId], references: [id])
-  atributte String // Color, Talla, Material, Peso, Dimensiones
-  value     String // Value of the atributte
-  images    Image[]
-  inventory VariationInventory?
-  OrderItem OrderItem[]
+  id          String              @id @default(cuid())
+  productId   String
+  product     Product             @relation(fields: [productId], references: [id])
+  atributte   String // Color, Talla, Material, Peso, Dimensiones
+  value       String // Value of the atributte
+  images      Image[]
+  inventory   VariationInventory?
+  order_items OrderItem[]
 
   @@unique([productId, atributte, value]) // Unique combination of productId, atributte and value
 }

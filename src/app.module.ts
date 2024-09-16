@@ -1,14 +1,14 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { PrismaModule } from '@prisma-orm/module/prisma.module';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { PrismaModule } from '@prisma-orm/module/prisma.module';
 import { JwtAuthGuard } from '@shared/guards/jwt.guard';
-import { JwtStrategy } from '@shared/strategies/jwt.strategy';
 import { PermissionsGuard } from '@shared/guards/permission.guard';
+import { JwtStrategy } from '@shared/strategies/jwt.strategy';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
